@@ -74,6 +74,10 @@ namespace Json5.Parsing
               throw UnexpectedToken(token);
 
             case Json5TokenType.Identifier:
+              // Since these are literal tokens, check token.Input
+              // instead of token.String. Whereas `true` and `\x74rue`
+              // are both valid identifiers that represent the same
+              // thing, only `true` is a boolean literal.
               switch(token.Input)
               {
                 case "true":
@@ -143,6 +147,9 @@ namespace Json5.Parsing
 
             case Json5TokenType.Identifier:
             case Json5TokenType.String:
+              // All identifiers are valid as keys
+              // even if they are literals like
+              // `true`, `null`, or `Infinity`.
               key = token.String;
               this.state = State.AfterObjectKey;
               goto start;
