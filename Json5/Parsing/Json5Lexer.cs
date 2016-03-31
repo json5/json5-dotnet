@@ -34,7 +34,7 @@ namespace Json5.Parsing
     /// Gets the next token in the text.
     /// </summary>
     /// <returns>The next token in the text.</returns>
-    public Json5Token Read(bool isKey = false)
+    public Json5Token Read()
     {
       State state = State.Default;
       string inputBuffer = "";
@@ -82,99 +82,6 @@ namespace Json5.Parsing
               inputBuffer += c = (char)this.reader.Read();
               valueBuffer += c;
               goto start;
-
-            case 'I':
-              // This may be Infinity;
-              // otherwise, it's an identifier.
-              inputBuffer += c = (char)this.reader.Read();
-              valueBuffer += c;
-
-              // If an object key is being parsed,
-              // then this is an identifier.
-              if(isKey)
-              {
-                state = State.Identifier;
-                goto start;
-              }
-
-              foreach(char i in "nfinity")
-              {
-                if((r = this.reader.Peek()) != i)
-                {
-                  if(r == '$' || r == '_' || IsIdentifierChar((char)r))
-                  {
-                    state = State.Identifier;
-                    inputBuffer += c = (char)this.reader.Read();
-                    valueBuffer += c;
-                    goto start;
-                  }
-
-                  return Token(Json5TokenType.Identifier, valueBuffer, inputBuffer);
-                }
-
-                inputBuffer += c = (char)this.reader.Read();
-                valueBuffer += c;
-              }
-
-              if((r = this.reader.Peek()) == '$' || r == '_' || IsIdentifierChar((char)r))
-              {
-                state = State.Identifier;
-                inputBuffer += c = (char)this.reader.Read();
-                valueBuffer += c;
-                goto start;
-              }
-
-              return Token(Json5TokenType.Number, double.PositiveInfinity, inputBuffer);
-
-            case 'N':
-              // This may be NaN;
-              // otherwise, it's an identifier.
-              inputBuffer += c = (char)this.reader.Read();
-              valueBuffer += c;
-
-              // If an object key is being parsed,
-              // then this in as identifier.
-              if(isKey)
-              {
-                state = State.Identifier;
-                goto start;
-              }
-
-              if((r = this.reader.Peek()) != 'a')
-              {
-                if(r == '$' || r == '_' || IsIdentifierChar((char)r))
-                {
-                  state = State.Identifier;
-                  inputBuffer += c = (char)this.reader.Read();
-                  valueBuffer += c;
-                  goto start;
-                }
-
-                return Token(Json5TokenType.Identifier, valueBuffer, inputBuffer);
-              }
-
-              if((r = this.reader.Peek()) != 'N')
-              {
-                if(r == '$' || r == '_' || IsIdentifierChar((char)r))
-                {
-                  state = State.Identifier;
-                  inputBuffer += c = (char)this.reader.Read();
-                  valueBuffer += c;
-                  goto start;
-                }
-
-                return Token(Json5TokenType.Identifier, valueBuffer, inputBuffer);
-              }
-
-              if((r = this.reader.Peek()) == '$' || r == '_' || IsIdentifierChar((char)r))
-              {
-                state = State.Identifier;
-                inputBuffer += c = (char)this.reader.Read();
-                valueBuffer += c;
-                goto start;
-              }
-
-              return Token(Json5TokenType.Number, double.NaN, inputBuffer);
 
             case '\\':
               state = State.IdentifierStartEscapeSlash;

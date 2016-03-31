@@ -44,7 +44,7 @@ namespace Json5.Parsing
       string key = null;
 
       start:
-      Json5Token token = this.lexer.Read(this.state == State.BeforeObjectKey);
+      Json5Token token = this.lexer.Read();
 
       switch(this.state)
       {

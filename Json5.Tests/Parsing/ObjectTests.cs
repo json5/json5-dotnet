@@ -60,20 +60,6 @@ namespace Json5.Tests.Parsing
     }
 
     [TestMethod]
-    public void UnquotedKeyStartingWithReservedWordTest()
-    {
-      var v = Json5.Parse("{Infinity$: 0}");
-      var o = (Json5Object)v;
-      Assert.AreEqual(1, o.Count);
-      Assert.AreEqual(0D, (double)o["Infinity$"]);
-
-      v = Json5.Parse("{NaNNot: 0}");
-      o = (Json5Object)v;
-      Assert.AreEqual(1, o.Count);
-      Assert.AreEqual(0D, (double)o["NaNNot"]);
-    }
-
-    [TestMethod]
     public void ReservedWordKeyTest()
     {
       var v = Json5.Parse("{true: 0}");
