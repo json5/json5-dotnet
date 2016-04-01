@@ -361,7 +361,7 @@ namespace Json5.Parsing
                 valueBuffer += c;
               }
 
-              return Token(Json5TokenType.Number, double.PositiveInfinity * sign, inputBuffer);
+              return Token(Json5TokenType.Number, sign * double.PositiveInfinity, inputBuffer);
 
             case 'N':
               inputBuffer += c = (char)this.reader.Read();
