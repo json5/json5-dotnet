@@ -586,7 +586,7 @@ namespace Json5.Parsing
           }
 
           // Parse this value with BigInteger because ulong can only parse numbers up to 0xFFFFFFFFFFFFFFFF.
-          return Token(Json5TokenType.Number, (double)BigInteger.Parse(valueBuffer, NumberStyles.HexNumber), inputBuffer);
+          return Token(Json5TokenType.Number, sign * (double)BigInteger.Parse(valueBuffer, NumberStyles.HexNumber), inputBuffer);
 
         case State.String:
           switch(r)

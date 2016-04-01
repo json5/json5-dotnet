@@ -172,6 +172,10 @@ namespace Json5.Tests.Parsing
       v = Json5.Parse("-1");
       n = (double)v;
       Assert.AreEqual(-1, n);
+
+      v = Json5.Parse("-0x12");
+      n = (double)v;
+      Assert.AreEqual(-0x12, n);
     }
 
     [TestMethod]
