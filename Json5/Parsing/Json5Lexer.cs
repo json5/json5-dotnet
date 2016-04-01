@@ -98,21 +98,18 @@ namespace Json5.Parsing
 
             case '+':
               state = State.Sign;
-              inputBuffer += c = (char)this.reader.Read();
-              valueBuffer += c;
+              inputBuffer += (char)this.reader.Read();
               goto start;
 
             case '-':
               state = State.Sign;
               sign = -1;
-              inputBuffer += c = (char)this.reader.Read();
-              valueBuffer += c;
+              inputBuffer += (char)this.reader.Read();
               goto start;
 
             case '0':
               state = State.Zero;
-              inputBuffer += c = (char)this.reader.Read();
-              valueBuffer += c;
+              inputBuffer += (char)this.reader.Read();
               goto start;
 
             case '1':
@@ -125,14 +122,12 @@ namespace Json5.Parsing
             case '8':
             case '9':
               state = State.DecimalInteger;
-              inputBuffer += c = (char)this.reader.Read();
-              valueBuffer += c;
+              inputBuffer += (char)this.reader.Read();
               goto start;
 
             case '.':
               state = State.DecimalPointLeading;
-              inputBuffer += c = (char)this.reader.Read();
-              valueBuffer += c;
+              inputBuffer += (char)this.reader.Read();
               goto start;
 
             case '"':
@@ -322,8 +317,7 @@ namespace Json5.Parsing
           {
             case '0':
               state = State.Zero;
-              inputBuffer += c = (char)this.reader.Read();
-              valueBuffer += c;
+              inputBuffer += (char)this.reader.Read();
               goto start;
 
             case '1':
@@ -336,19 +330,17 @@ namespace Json5.Parsing
             case '8':
             case '9':
               state = State.DecimalInteger;
-              inputBuffer += c = (char)this.reader.Read();
-              valueBuffer += c;
+              inputBuffer += (char)this.reader.Read();
               goto start;
 
             case '.':
               state = State.DecimalPointLeading;
-              inputBuffer += c = (char)this.reader.Read();
-              valueBuffer += c;
+              inputBuffer += (char)this.reader.Read();
               goto start;
 
             case 'I':
-              inputBuffer += c = (char)this.reader.Read();
-              valueBuffer += c;
+              inputBuffer += (char)this.reader.Read();
+
               foreach(char i in "nfinity")
               {
                 if((r = this.reader.Peek()) == -1)
@@ -357,15 +349,13 @@ namespace Json5.Parsing
                 if(r != i)
                   throw UnexpectedCharacter((char)r);
 
-                inputBuffer += c = (char)this.reader.Read();
-                valueBuffer += c;
+                inputBuffer += (char)this.reader.Read();
               }
 
               return Token(Json5TokenType.Number, sign * double.PositiveInfinity, inputBuffer);
 
             case 'N':
-              inputBuffer += c = (char)this.reader.Read();
-              valueBuffer += c;
+              inputBuffer += (char)this.reader.Read();
 
               if((r = this.reader.Peek()) == -1)
                 throw UnexpectedEndOfInput();
@@ -373,8 +363,7 @@ namespace Json5.Parsing
               if(r != 'a')
                 throw UnexpectedCharacter((char)r);
 
-              inputBuffer += c = (char)this.reader.Read();
-              valueBuffer += c;
+              inputBuffer += (char)this.reader.Read();
 
               if((r = this.reader.Peek()) == -1)
                 throw UnexpectedEndOfInput();
@@ -382,8 +371,7 @@ namespace Json5.Parsing
               if(r != 'N')
                 throw UnexpectedCharacter((char)r);
 
-              inputBuffer += c = (char)this.reader.Read();
-              valueBuffer += c;
+              inputBuffer += (char)this.reader.Read();
               return Token(Json5TokenType.Number, double.NaN, inputBuffer);
 
             case -1:
@@ -397,15 +385,13 @@ namespace Json5.Parsing
           {
             case '.':
               state = State.DecimalPoint;
-              inputBuffer += c = (char)this.reader.Read();
-              valueBuffer += c;
+              inputBuffer += (char)this.reader.Read();
               goto start;
 
             case 'e':
             case 'E':
               state = State.DecimalExponent;
-              inputBuffer += c = (char)this.reader.Read();
-              valueBuffer += c;
+              inputBuffer += (char)this.reader.Read();
               goto start;
 
             case 'x':
@@ -438,26 +424,23 @@ namespace Json5.Parsing
           {
             case '.':
               state = State.DecimalPoint;
-              inputBuffer += c = (char)this.reader.Read();
-              valueBuffer += c;
+              inputBuffer += (char)this.reader.Read();
               goto start;
 
             case 'e':
             case 'E':
               state = State.DecimalExponent;
-              inputBuffer += c = (char)this.reader.Read();
-              valueBuffer += c;
+              inputBuffer += (char)this.reader.Read();
               goto start;
           }
 
           if(IsDigit(r))
           {
-            inputBuffer += c = (char)this.reader.Read();
-            valueBuffer += c;
+            inputBuffer += (char)this.reader.Read();
             goto start;
           }
 
-          return Token(Json5TokenType.Number, double.Parse(valueBuffer), inputBuffer);
+          return Token(Json5TokenType.Number, double.Parse(inputBuffer), inputBuffer);
 
         case State.DecimalPointLeading:
           if(r == -1)
@@ -466,8 +449,7 @@ namespace Json5.Parsing
           if(IsDigit(r))
           {
             state = State.DecimalFraction;
-            inputBuffer += c = (char)this.reader.Read();
-            valueBuffer += c;
+            inputBuffer += (char)this.reader.Read();
             goto start;
           }
 
@@ -479,20 +461,18 @@ namespace Json5.Parsing
             case 'e':
             case 'E':
               state = State.DecimalExponent;
-              inputBuffer += c = (char)this.reader.Read();
-              valueBuffer += c;
+              inputBuffer += (char)this.reader.Read();
               goto start;
           }
 
           if(IsDigit(r))
           {
             state = State.DecimalFraction;
-            inputBuffer += c = (char)this.reader.Read();
-            valueBuffer += c;
+            inputBuffer += (char)this.reader.Read();
             goto start;
           }
 
-          return Token(Json5TokenType.Number, double.Parse(valueBuffer), inputBuffer);
+          return Token(Json5TokenType.Number, double.Parse(inputBuffer), inputBuffer);
 
         case State.DecimalFraction:
           switch(r)
@@ -500,19 +480,17 @@ namespace Json5.Parsing
             case 'e':
             case 'E':
               state = State.DecimalExponent;
-              inputBuffer += c = (char)this.reader.Read();
-              valueBuffer += c;
+              inputBuffer += (char)this.reader.Read();
               goto start;
           }
 
           if(IsDigit(r))
           {
-            inputBuffer += c = (char)this.reader.Read();
-            valueBuffer += c;
+            inputBuffer += (char)this.reader.Read();
             goto start;
           }
 
-          return Token(Json5TokenType.Number, double.Parse(valueBuffer), inputBuffer);
+          return Token(Json5TokenType.Number, double.Parse(inputBuffer), inputBuffer);
 
         case State.DecimalExponent:
           switch(r)
@@ -520,8 +498,7 @@ namespace Json5.Parsing
             case '+':
             case '-':
               state = State.DecimalExponentSign;
-              inputBuffer += c = (char)this.reader.Read();
-              valueBuffer += c;
+              inputBuffer += (char)this.reader.Read();
               goto start;
 
             case -1:
@@ -531,8 +508,7 @@ namespace Json5.Parsing
           if(IsDigit(r))
           {
             state = State.DecimalExponentInteger;
-            inputBuffer += c = (char)this.reader.Read();
-            valueBuffer += c;
+            inputBuffer += (char)this.reader.Read();
             goto start;
           }
 
@@ -545,8 +521,7 @@ namespace Json5.Parsing
           if(IsDigit(r))
           {
             state = State.DecimalExponentInteger;
-            inputBuffer += c = (char)this.reader.Read();
-            valueBuffer += c;
+            inputBuffer += (char)this.reader.Read();
             goto start;
           }
 
@@ -555,12 +530,11 @@ namespace Json5.Parsing
         case State.DecimalExponentInteger:
           if(IsDigit(r))
           {
-            inputBuffer += c = (char)this.reader.Read();
-            valueBuffer += c;
+            inputBuffer += (char)this.reader.Read();
             goto start;
           }
 
-          return Token(Json5TokenType.Number, double.Parse(valueBuffer), inputBuffer);
+          return Token(Json5TokenType.Number, double.Parse(inputBuffer), inputBuffer);
 
         case State.Hexadecimal:
           if(r == -1)
