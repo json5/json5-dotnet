@@ -680,6 +680,19 @@ namespace Json5.Parsing
               valueBuffer += '\0';
               goto start;
 
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+              throw Error(new NotSupportedException("Octal escape sequences are not supported."));
+
+            case '8':
+            case '9':
+              throw UnexpectedCharacter((char)r);
+
             case 'x':
               inputBuffer += (char)this.reader.Read();
               hexBuffer = "";
