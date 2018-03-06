@@ -19,7 +19,7 @@ namespace Json5.Parsing
     /// Contructs a new <see cref="Json5Lexer"/> using a <see cref="string"/>.
     /// </summary>
     /// <param name="source">The JSON5 text.</param>
-    public Json5Lexer(string source) : this(new StreamReader(source)) { }
+    public Json5Lexer(string source) : this(new StringReader(source)) { }
 
     /// <summary>
     /// Contructs a new <see cref="Json5Lexer"/> using a <see cref="TextReader"/>.
