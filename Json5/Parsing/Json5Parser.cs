@@ -137,9 +137,17 @@ namespace Json5.Parsing
           switch(token.Type)
           {
             case Json5TokenType.Punctuator:
-              if(token.Character == '}')
-              {
+              if ( token.Character == '}' ||
+              token.Character == ']' ) {
                 this.Pop();
+                goto start;
+              }
+              if ( token.Character == '{' ) {
+                this.Add( new Json5Object() , key );
+                goto start;
+              }
+              if ( token.Character == '[' ) {
+                this.Add( new Json5Array() , key );
                 goto start;
               }
 
@@ -219,7 +227,7 @@ namespace Json5.Parsing
     void Pop()
     {
       this.stack.Pop();
-      this.currentContainer = this.stack.LastOrDefault();
+		  this.currentContainer = this.stack.FirstOrDefault();
       this.ResetState();
     }
 
