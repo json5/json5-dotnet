@@ -24,7 +24,13 @@ namespace Json5
 
     public static bool operator ==(Json5Primitive a, Json5Primitive b)
     {
-      return a.Value == b.Value;
+		if ( object.ReferenceEquals( a , b ) ) {
+		    return true;
+		}
+		if ( (object) a == null || (object) b == null ) {
+		    return false;
+		}
+		return a.Value == b.Value;
     }
 
     public static bool operator !=(Json5Primitive a, Json5Primitive b)
