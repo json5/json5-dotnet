@@ -1,36 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Json5
 {
-  public class Json5Number : Json5Primitive
-  {
-    private double value;
-
-    public Json5Number(double value)
+    public class Json5Number : Json5Primitive
     {
-      this.value = value;
-    }
+        private double value;
 
-    public override Json5Type Type
-    {
-      get { return Json5Type.Number; }
-    }
+        public Json5Number(double value)
+        {
+            this.value = value;
+        }
 
-    protected override object Value
-    {
-      get { return this.value; }
-    }
+        public override Json5Type Type
+        {
+            get { return Json5Type.Number; }
+        }
 
-    internal override string ToJson5String(string space, string indent)
-    {
-      return Json5.QuoteString(this.value.ToString());
-    }
+        protected override object Value
+        {
+            get { return this.value; }
+        }
 
-    public static implicit operator double(Json5Number value)
-    {
-      return value.value;
+        internal override string ToJson5String(string space, string indent)
+        {
+            return Json5.QuoteString(this.value.ToString());
+        }
+
+        public static implicit operator double(Json5Number value)
+        {
+            return value.value;
+        }
     }
-  }
 }

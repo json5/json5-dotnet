@@ -1,0 +1,6 @@
+language: csharp
+solution: Json5.sln
+mono: none
+dotnet: 2.1.4
+script:
+  - dotnet test Json5.Tests/Json5.Tests.csproj
