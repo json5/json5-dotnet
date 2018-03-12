@@ -35,7 +35,7 @@ namespace Json5
             throw new NotImplementedException();
         }
 
-        public static string Stringify(Json5Value value, Func<Json5Container, string, Json5Value, Json5Value> replacer, string space)
+        public static string Stringify(Json5Value value, Func<Json5Container, string, Json5Value, Json5Value> replacer, string space = null)
         {
             if (replacer != null)
                 value = Transform(value, replacer);
@@ -48,7 +48,17 @@ namespace Json5
             return Stringify(value, replacer, new string(' ', Math.Max(space, 10)));
         }
 
-        public static string Stringify(Json5Value value, IEnumerable<string> keys, string space)
+        public static string Stringify(Json5Value value, Func<string, Json5Value, Json5Value> replacer, string space = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static string Stringify(Json5Value value, Func<string, Json5Value, Json5Value> replacer, int space)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static string Stringify(Json5Value value, IEnumerable<string> keys, string space = null)
         {
             Func<Json5Container, string, Json5Value, Json5Value> replacer = null;
             if (keys != null)
@@ -61,6 +71,21 @@ namespace Json5
         {
             return Stringify(value, keys, new string(' ', Math.Max(space, 10)));
         }
+
+        public static string Stringify(Json5Value value, string space = null)
+        {
+            return Stringify(value, (Func<Json5Container, string, Json5Value, Json5Value>)null, space);
+        }
+
+        public static string Stringify(Json5Value value, int space)
+        {
+            return Stringify(value, (Func<Json5Container, string, Json5Value, Json5Value>)null, space);
+        }
+
+        //public static string Stringify(Json5Value value)
+        //{
+        //    return Stringify(value, replacer: null, space: null);
+        //}
 
         private static Func<Json5Container, string, Json5Value, Json5Value> GetKeyTransformer(IEnumerable<string> keys)
         {
