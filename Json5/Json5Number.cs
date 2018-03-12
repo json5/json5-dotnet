@@ -21,7 +21,7 @@ namespace Json5
 
         internal override string ToJson5String(string space, string indent)
         {
-            return Json5.QuoteString(this.value.ToString());
+            return this.value.ToString();
         }
 
         public static implicit operator double(Json5Number value)

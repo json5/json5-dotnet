@@ -11,7 +11,7 @@ namespace Json5
 
         internal override string ToJson5String(string space, string indent)
         {
-            return Json5.QuoteString("null");
+            return "null";
         }
     }
 }
