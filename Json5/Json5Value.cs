@@ -69,6 +69,32 @@ namespace Json5
             return null;
         }
 
+        public static implicit operator Json5Value(DateTimeOffset value)
+        {
+            return new Json5Date(value);
+        }
+
+        public static implicit operator Json5Value(DateTimeOffset? value)
+        {
+            if (value.HasValue)
+                return new Json5Date(value.Value);
+
+            return null;
+        }
+
+        public static implicit operator Json5Value(DateTime value)
+        {
+            return new Json5Date(value);
+        }
+
+        public static implicit operator Json5Value(DateTime? value)
+        {
+            if (value.HasValue)
+                return new Json5Date(value.Value);
+
+            return null;
+        }
+
         public static explicit operator string(Json5Value value)
         {
             return (Json5String)value;
@@ -92,6 +118,26 @@ namespace Json5
         public static explicit operator bool? (Json5Value value)
         {
             return (Json5Boolean)value;
+        }
+
+        public static explicit operator DateTimeOffset(Json5Value value)
+        {
+            return (Json5Date)value;
+        }
+
+        public static explicit operator DateTimeOffset? (Json5Value value)
+        {
+            return (Json5Date)value;
+        }
+
+        public static explicit operator DateTime(Json5Value value)
+        {
+            return (Json5Date)value;
+        }
+
+        public static explicit operator DateTime? (Json5Value value)
+        {
+            return (Json5Date)value;
         }
     }
 }

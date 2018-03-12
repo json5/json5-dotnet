@@ -8,5 +8,6 @@ namespace Json5
         Array,
         Boolean,
         Null,
+        Date,
     }
 }
