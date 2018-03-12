@@ -30,6 +30,11 @@ namespace Json5
             return value;
         }
 
+        public static Json5Value Parse(string text, Func<string, Json5Value, Json5Value> reviver)
+        {
+            throw new NotImplementedException();
+        }
+
         public static string Stringify(Json5Value value, Func<Json5Container, string, Json5Value, Json5Value> replacer, string space)
         {
             if (replacer != null)
