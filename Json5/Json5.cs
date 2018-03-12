@@ -130,7 +130,7 @@ namespace Json5
                     singleQuotes++;
             }
 
-            char quote = doubleQuotes > singleQuotes ? '\'' : '"';
+            char quote = doubleQuotes >= singleQuotes ? '\'' : '"';
             return quote + EscapeString(s, quote) + quote;
         }
 
