@@ -1,6 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Json5.Tests.Parsing
+namespace Json5.Tests.Stringifying
 {
     [TestClass]
     public class BooleanTests
@@ -8,15 +8,15 @@ namespace Json5.Tests.Parsing
         [TestMethod]
         public void TrueTest()
         {
-            var v = Json5.Parse("true");
-            Assert.IsTrue((bool)v);
+            var s = Json5.Stringify(true);
+            Assert.AreEqual("true", s);
         }
 
         [TestMethod]
         public void FalseTest()
         {
-            var v = Json5.Parse("false");
-            Assert.IsFalse((bool)v);
+            var s = Json5.Stringify(false);
+            Assert.AreEqual("false", s);
         }
     }
 }

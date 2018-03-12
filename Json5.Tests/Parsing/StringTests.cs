@@ -6,83 +6,39 @@ namespace Json5.Tests.Parsing
     public class StringTests
     {
         [TestMethod]
-        public void DoubleQuoteEmptyTest()
+        public void DoubleQuotedStringsTest()
         {
-            var v = Json5.Parse("\"\"");
-            var s = (string)v;
-            Assert.AreEqual("", s);
+            var v = Json5.Parse("\"abc\"");
+            Assert.AreEqual("abc", (string)v);
         }
 
         [TestMethod]
-        public void SingleQuoteEmptyTest()
+        public void SingleQuotedStringsTest()
         {
-            var v = Json5.Parse("''");
-            var s = (string)v;
-            Assert.AreEqual("", s);
+            var v = Json5.Parse("'abc'");
+            Assert.AreEqual("abc", (string)v);
         }
 
         [TestMethod]
-        public void DoubleQuoteWithSingleQuoteTest()
+        public void NestedQuotesInStringsTest()
         {
-            var v = Json5.Parse("\"'\"");
-            var s = (string)v;
-            Assert.AreEqual("'", s);
+            var v = Json5.Parse("['\"',\"'\"]");
+            Assert.AreEqual("\"", (string)v[0]);
+            Assert.AreEqual("'", (string)v[1]);
         }
 
         [TestMethod]
-        public void SingleQuoteWithDoubleQuoteTest()
+        public void EscapedCharactersTest()
         {
-            var v = Json5.Parse("'\"'");
-            var s = (string)v;
-            Assert.AreEqual("\"", s);
+            var v = Json5.Parse("'\\b\\f\\n\\r\\t\\v\\0\\x0f\\u01fF\\\n\\\r\n\\\r\\\u2028\\\u2029\\a\\'\\\"'");
+            Assert.AreEqual("\b\f\n\r\t\v\0\x0f\u01FFa'\"", (string)v);
         }
 
         [TestMethod]
-        public void AllowUnicodeSeparatorsTest()
+        public void SeparatorsTest()
         {
             var v = Json5.Parse("'\u2028\u2029'");
-            var s = (string)v;
-            Assert.AreEqual("\u2028\u2029", s);
-        }
-
-        [TestMethod]
-        public void SimpleEscapesTest()
-        {
-            var v = Json5.Parse(@"'\b\f\n\r\t\v\0'");
-            var s = (string)v;
-            Assert.AreEqual("\b\f\n\r\t\v\0", s);
-        }
-
-        [TestMethod]
-        public void CharacterEscapeTest()
-        {
-            var v = Json5.Parse(@"'\x12'");
-            var s = (string)v;
-            Assert.AreEqual("\x12", s);
-        }
-
-        [TestMethod]
-        public void UnicodeEscapeTest()
-        {
-            var v = Json5.Parse(@"'\u1234'");
-            var s = (string)v;
-            Assert.AreEqual("\u1234", s);
-        }
-
-        [TestMethod]
-        public void EscapedNewLines()
-        {
-            var v = Json5.Parse("'\\\n\\\r\\\r\n'");
-            var s = (string)v;
-            Assert.AreEqual("", s);
-        }
-
-        [TestMethod]
-        public void NonEscapeCharactersTest()
-        {
-            var v = Json5.Parse(@"'\a\c\d\e'");
-            var s = (string)v;
-            Assert.AreEqual("acde", s);
+            Assert.AreEqual("\u2028\u2029", (string)v);
         }
     }
 }

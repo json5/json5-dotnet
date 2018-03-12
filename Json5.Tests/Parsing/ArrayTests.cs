@@ -6,7 +6,7 @@ namespace Json5.Tests.Parsing
     public class ArrayTests
     {
         [TestMethod]
-        public void EmptyTest()
+        public void EmptyArraysTest()
         {
             var v = Json5.Parse("[]");
             var a = (Json5Array)v;
@@ -14,43 +14,33 @@ namespace Json5.Tests.Parsing
         }
 
         [TestMethod]
-        public void SingleValueTest()
+        public void ArrayValuesTest()
         {
-            var v = Json5.Parse("[0]");
+            var v = Json5.Parse("[1]");
             var a = (Json5Array)v;
             Assert.AreEqual(1, a.Count);
-            Assert.AreEqual(0D, (double)a[0]);
+            Assert.AreEqual(1D, (double)a[0]);
         }
 
         [TestMethod]
-        public void MultipleValuesTest()
+        public void MultipleArrayValuesTest()
         {
-            var v = Json5.Parse("[0, 'a', true]");
-            var a = (Json5Array)v;
-            Assert.AreEqual(3, a.Count);
-            Assert.AreEqual(0D, (double)a[0]);
-            Assert.AreEqual("a", (string)a[1]);
-            Assert.IsTrue((bool)a[2]);
-        }
-
-        [TestMethod]
-        public void TrailingCommaTest()
-        {
-            var v = Json5.Parse("[0, 1, ]");
+            var v = Json5.Parse("[1,2]");
             var a = (Json5Array)v;
             Assert.AreEqual(2, a.Count);
-            Assert.AreEqual(0D, (double)a[0]);
-            Assert.AreEqual(1D, (double)a[1]);
+            Assert.AreEqual(1D, (double)a[0]);
+            Assert.AreEqual(2D, (double)a[1]);
         }
 
         [TestMethod]
-        public void NestedTest()
+        public void NestedArraysTest()
         {
-            var v = Json5.Parse("[0, [1]]");
+            var v = Json5.Parse("[1,[2,3]]");
             var a = (Json5Array)v;
             Assert.AreEqual(2, a.Count);
-            Assert.AreEqual(0D, (double)a[0]);
-            Assert.AreEqual(1D, (double)a[1][0]);
+            Assert.AreEqual(1D, (double)a[0]);
+            Assert.AreEqual(2D, (double)a[1][0]);
+            Assert.AreEqual(3D, (double)a[1][1]);
         }
     }
 }

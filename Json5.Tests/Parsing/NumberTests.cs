@@ -6,207 +6,87 @@ namespace Json5.Tests.Parsing
     public class NumberTests
     {
         [TestMethod]
-        public void ZeroTest()
+        public void LeadingZeroesTest()
         {
-            var v = Json5.Parse("0");
-            var n = (double)v;
-            Assert.AreEqual(0D, n);
+            var v = Json5.Parse("[0,0.,0e0]");
+            Assert.AreEqual(0D, (double)v[0]);
+            Assert.AreEqual(0D, (double)v[1]);
+            Assert.AreEqual(0D, (double)v[2]);
         }
 
         [TestMethod]
-        public void ZeroDotTest()
+        public void IntegersTest()
         {
-            var v = Json5.Parse("0.");
-            var n = (double)v;
-            Assert.AreEqual(0D, n);
+            var v = Json5.Parse("[1,23,456,7890]");
+            Assert.AreEqual(1D, (double)v[0]);
+            Assert.AreEqual(23D, (double)v[1]);
+            Assert.AreEqual(456D, (double)v[2]);
+            Assert.AreEqual(7890D, (double)v[3]);
         }
 
         [TestMethod]
-        public void ZeroExpTest()
+        public void SignedNumbersTest()
         {
-            var v = Json5.Parse("0e1");
-            var n = (double)v;
-            Assert.AreEqual(0D, n);
-
-            v = Json5.Parse("0E1");
-            n = (double)v;
-            Assert.AreEqual(0D, n);
+            var v = Json5.Parse("[-1,+2,-.1,-0]");
+            Assert.AreEqual(-1D, (double)v[0]);
+            Assert.AreEqual(2D, (double)v[1]);
+            Assert.AreEqual(-0.1D, (double)v[2]);
+            Assert.AreEqual(-0D, (double)v[3]);
         }
 
         [TestMethod]
-        public void ZeroDotDigitTest()
+        public void LeadingDecimalPointsTest()
         {
-            var v = Json5.Parse("0.1");
-            var n = (double)v;
-            Assert.AreEqual(0.1D, n);
+            var v = Json5.Parse("[.1,.23]");
+            Assert.AreEqual(0.1D, (double)v[0]);
+            Assert.AreEqual(0.23D, (double)v[1]);
         }
 
         [TestMethod]
-        public void ZeroHexTest()
+        public void FractionalNumbersTest()
         {
-            var v = Json5.Parse("0x1");
-            var n = (double)v;
-            Assert.AreEqual(1D, n);
+            var v = Json5.Parse("[1.0,1.23]");
+            Assert.AreEqual(1D, (double)v[0]);
+            Assert.AreEqual(1.23D, (double)v[1]);
         }
 
         [TestMethod]
-        public void DecimalIntegerTest()
+        public void ExponentsTest()
         {
-            var v = Json5.Parse("1");
-            var n = (double)v;
-            Assert.AreEqual(1D, n);
+            var v = Json5.Parse("[1e0,1e1,1e01,1.e0,1.1e0,1e-1,1e+1]");
+            Assert.AreEqual(1D, (double)v[0]);
+            Assert.AreEqual(10D, (double)v[1]);
+            Assert.AreEqual(10D, (double)v[2]);
+            Assert.AreEqual(1D, (double)v[3]);
+            Assert.AreEqual(1.1D, (double)v[4]);
+            Assert.AreEqual(0.1D, (double)v[5]);
+            Assert.AreEqual(10D, (double)v[6]);
         }
 
         [TestMethod]
-        public void DecimalIntegerDotTest()
+        public void HexadecimalNumbersTest()
         {
-            var v = Json5.Parse("1.");
-            var n = (double)v;
-            Assert.AreEqual(1D, n);
-        }
-
-        [TestMethod]
-        public void DecimalIntegerExpTest()
-        {
-            var v = Json5.Parse("1e2");
-            var n = (double)v;
-            Assert.AreEqual(100D, n);
-
-            v = Json5.Parse("1E2");
-            n = (double)v;
-            Assert.AreEqual(100D, n);
-        }
-
-        [TestMethod]
-        public void DecimalIntegerDigitTest()
-        {
-            var v = Json5.Parse("12");
-            var n = (double)v;
-            Assert.AreEqual(12D, n);
-        }
-
-        [TestMethod]
-        public void DecimalPointLeadingTest()
-        {
-            var v = Json5.Parse(".1");
-            var n = (double)v;
-            Assert.AreEqual(.1D, n);
-        }
-
-        [TestMethod]
-        public void DecimalPointExpTest()
-        {
-            var v = Json5.Parse("1.e2");
-            var n = (double)v;
-            Assert.AreEqual(100D, n);
-
-            v = Json5.Parse("1.E2");
-            n = (double)v;
-            Assert.AreEqual(100D, n);
-        }
-
-        [TestMethod]
-        public void DecimalPointDigitTest()
-        {
-            var v = Json5.Parse("1.2");
-            var n = (double)v;
-            Assert.AreEqual(1.2D, n);
-        }
-
-        [TestMethod]
-        public void DecimalFractionExpTest()
-        {
-            var v = Json5.Parse("1.2e3");
-            var n = (double)v;
-            Assert.AreEqual(1200D, n);
-
-            v = Json5.Parse("1.2E3");
-            n = (double)v;
-            Assert.AreEqual(1200D, n);
-        }
-
-        [TestMethod]
-        public void DecimalFractionDigitTest()
-        {
-            var v = Json5.Parse("1.23");
-            var n = (double)v;
-            Assert.AreEqual(1.23D, n);
-        }
-
-        [TestMethod]
-        public void DecimalExponentSignTest()
-        {
-            var v = Json5.Parse("1e+2");
-            var n = (double)v;
-            Assert.AreEqual(100D, n);
-
-            v = Json5.Parse("1E+2");
-            n = (double)v;
-            Assert.AreEqual(100D, n);
-
-            v = Json5.Parse("1e-2");
-            n = (double)v;
-            Assert.AreEqual(0.01D, n);
-
-            v = Json5.Parse("1E-2");
-            n = (double)v;
-            Assert.AreEqual(0.01D, n);
-        }
-
-        [TestMethod]
-        public void HexadecimalIntegerTest()
-        {
-            var v = Json5.Parse("0x12");
-            var n = (double)v;
-            Assert.AreEqual(0x12, n);
-        }
-
-        [TestMethod]
-        public void SignedNumberTest()
-        {
-            var v = Json5.Parse("+1");
-            var n = (double)v;
-            Assert.AreEqual(1, n);
-
-            v = Json5.Parse("-1");
-            n = (double)v;
-            Assert.AreEqual(-1, n);
-
-            v = Json5.Parse("-0x12");
-            n = (double)v;
-            Assert.AreEqual(-0x12, n);
+            var v = Json5.Parse("[0x1,0x10,0xff,0xFF]");
+            Assert.AreEqual(1D, (double)v[0]);
+            Assert.AreEqual(16D, (double)v[1]);
+            Assert.AreEqual(255D, (double)v[2]);
+            Assert.AreEqual(255D, (double)v[3]);
         }
 
         [TestMethod]
         public void InfinityTest()
         {
-            var v = Json5.Parse("Infinity");
-            var n = (double)v;
-            Assert.AreEqual(double.PositiveInfinity, n);
-
-            v = Json5.Parse("+Infinity");
-            n = (double)v;
-            Assert.AreEqual(double.PositiveInfinity, n);
-
-            v = Json5.Parse("-Infinity");
-            n = (double)v;
-            Assert.AreEqual(double.NegativeInfinity, n);
+            var v = Json5.Parse("[Infinity,-Infinity]");
+            Assert.AreEqual(double.PositiveInfinity, (double)v[0]);
+            Assert.AreEqual(double.NegativeInfinity, (double)v[1]);
         }
 
         [TestMethod]
         public void NaNTest()
         {
-            var v = Json5.Parse("NaN");
-            var n = (double)v;
-            Assert.AreEqual(double.NaN, n);
-
-            v = Json5.Parse("+NaN");
-            n = (double)v;
-            Assert.AreEqual(double.NaN, n);
-
-            v = Json5.Parse("-NaN");
-            n = (double)v;
-            Assert.AreEqual(double.NaN, n);
+            var v = Json5.Parse("[NaN,-NaN]");
+            Assert.AreEqual(double.NaN, (double)v[0]);
+            Assert.AreEqual(double.NaN, (double)v[1]);
         }
     }
 }
