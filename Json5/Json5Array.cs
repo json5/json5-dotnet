@@ -115,10 +115,24 @@ namespace Json5
         {
             string newLine = string.IsNullOrEmpty(space) ? "" : "\n";
 
+            // TODO: Use string builder instead of string
             string s = "[" + newLine;
 
+            bool isFirstValue = true;
+
             foreach (Json5Value value in this)
-                s += (value ?? Null).ToJson5String(space, indent + space) + "," + newLine;
+            {
+                if (isFirstValue)
+                {
+                    isFirstValue = false;
+                }
+                else
+                {
+                    s += "," + newLine;
+                }
+
+                s += (value ?? Null).ToJson5String(space, indent + space);
+            }
 
             s += indent + "]";
 
