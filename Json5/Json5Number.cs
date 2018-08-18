@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Json5
 {
     public class Json5Number : Json5Primitive
@@ -21,7 +23,7 @@ namespace Json5
 
         internal override string ToJson5String(string space, string indent)
         {
-            return this.value.ToString();
+            return this.value.ToString(CultureInfo.InvariantCulture);
         }
 
         public static implicit operator double(Json5Number value)
