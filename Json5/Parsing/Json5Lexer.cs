@@ -438,7 +438,7 @@ namespace Json5.Parsing
                         goto start;
                     }
 
-                    return Token(Json5TokenType.Number, double.Parse(inputBuffer), inputBuffer);
+                    return Token(Json5TokenType.Number, double.Parse(inputBuffer, CultureInfo.InvariantCulture), inputBuffer);
 
                 case State.DecimalPointLeading:
                     if (r == -1)
@@ -470,7 +470,7 @@ namespace Json5.Parsing
                         goto start;
                     }
 
-                    return Token(Json5TokenType.Number, double.Parse(inputBuffer), inputBuffer);
+                    return Token(Json5TokenType.Number, double.Parse(inputBuffer, CultureInfo.InvariantCulture), inputBuffer);
 
                 case State.DecimalFraction:
                     switch (r)
@@ -488,7 +488,7 @@ namespace Json5.Parsing
                         goto start;
                     }
 
-                    return Token(Json5TokenType.Number, double.Parse(inputBuffer), inputBuffer);
+                    return Token(Json5TokenType.Number, double.Parse(inputBuffer, CultureInfo.InvariantCulture), inputBuffer);
 
                 case State.DecimalExponent:
                     switch (r)
@@ -532,7 +532,7 @@ namespace Json5.Parsing
                         goto start;
                     }
 
-                    return Token(Json5TokenType.Number, double.Parse(inputBuffer), inputBuffer);
+                    return Token(Json5TokenType.Number, double.Parse(inputBuffer, CultureInfo.InvariantCulture), inputBuffer);
 
                 case State.Hexadecimal:
                     if (r == -1)
