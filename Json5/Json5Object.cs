@@ -69,12 +69,24 @@ namespace Json5
         {
             string newLine = string.IsNullOrEmpty(space) ? "" : "\n";
 
+            // TODO: Use string builder instead of string
             string s = "{" + newLine;
+
+            bool isFirstValue = true;
 
             foreach (var property in this)
             {
-                s += indent + space + KeyToString(property.Key) + ": ";
-                s += (property.Value ?? Null).ToJson5String(space, indent + space) + "," + newLine;
+                if (isFirstValue)
+                {
+                    isFirstValue = false;
+                }
+                else
+                {
+                    s += "," + newLine;
+                }
+
+                s += indent + space + KeyToString(property.Key) + ":";
+                s += (property.Value ?? Null).ToJson5String(space, indent + space);
             }
 
             s += indent + "}";
