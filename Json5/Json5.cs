@@ -105,7 +105,8 @@ namespace Json5
             if (value is Json5Container)
             {
                 Json5Container c = (Json5Container)value;
-                foreach (string k in c.Keys)
+                string[] keys = c.Keys.ToArray();
+                foreach (string k in keys)
                 {
                     Json5Value v = Walk(c, k, transformer);
                     if (v != null)
@@ -113,6 +114,12 @@ namespace Json5
                     else
                         c.Remove(k);
                 }
+            }
+
+            // Special case for holder
+            if (key == "")
+            {
+                return value;
             }
 
             return transformer(holder, key, value);
