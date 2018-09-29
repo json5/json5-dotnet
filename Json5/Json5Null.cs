@@ -11,7 +11,7 @@ namespace Json5
 
         internal override string ToJson5String(string space, string indent)
         {
-            return "null";
+            return SpaceHandler.AddSpace("null", space);
         }
     }
 }

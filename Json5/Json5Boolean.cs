@@ -21,7 +21,7 @@ namespace Json5
 
         internal override string ToJson5String(string space, string indent)
         {
-            return this.value.ToString().ToLower();
+            return SpaceHandler.AddSpace(this.value.ToString().ToLower(), space);
         }
 
         public static implicit operator bool(Json5Boolean value)

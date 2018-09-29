@@ -23,7 +23,7 @@ namespace Json5
 
         internal override string ToJson5String(string space, string indent)
         {
-            return Json5.QuoteString(this.value.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'"));
+            return SpaceHandler.AddSpace(Json5.QuoteString(this.value.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'")), space);
         }
 
         public static implicit operator DateTimeOffset(Json5Date value)

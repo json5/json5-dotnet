@@ -23,7 +23,7 @@ namespace Json5
 
         internal override string ToJson5String(string space, string indent)
         {
-            return this.value.ToString(CultureInfo.InvariantCulture);
+            return SpaceHandler.AddSpace(this.value.ToString(CultureInfo.InvariantCulture), space);
         }
 
         public static implicit operator double(Json5Number value)

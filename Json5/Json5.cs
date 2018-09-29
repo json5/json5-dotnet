@@ -45,7 +45,7 @@ namespace Json5
 
         public static string Stringify(Json5Value value, Func<Json5Container, string, Json5Value, Json5Value> replacer, int space)
         {
-            return Stringify(value, replacer, new string(' ', Math.Max(space, 10)));
+            return Stringify(value, replacer, new string(' ', Math.Min(space, 10)));
         }
 
         public static string Stringify(Json5Value value, Func<string, Json5Value, Json5Value> replacer, string space = null)

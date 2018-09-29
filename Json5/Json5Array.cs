@@ -113,6 +113,9 @@ namespace Json5
 
         internal override string ToJson5String(string space, string indent)
         {
+            // "If white space is used, trailing commas will be used in objects and arrays." from specification
+            bool forcedCommaAndNewLineRequired = !string.IsNullOrEmpty(space);
+
             string newLine = string.IsNullOrEmpty(space) ? "" : "\n";
 
             // TODO: Use string builder instead of string
@@ -132,6 +135,11 @@ namespace Json5
                 }
 
                 s += (value ?? Null).ToJson5String(space, indent + space);
+            }
+
+            if (forcedCommaAndNewLineRequired)
+            {
+                s += "," + newLine;
             }
 
             s += indent + "]";
