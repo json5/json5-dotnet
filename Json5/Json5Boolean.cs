@@ -19,9 +19,9 @@ namespace Json5
             get { return this.value; }
         }
 
-        internal override string ToJson5String(string space, string indent)
+        internal override string ToJson5String(string space, string indent, bool useOneSpaceIndent = false)
         {
-            return SpaceHandler.AddSpace(this.value.ToString().ToLower(), space);
+            return AddIndent(this.value.ToString().ToLower(), indent, useOneSpaceIndent);
         }
 
         public static implicit operator bool(Json5Boolean value)

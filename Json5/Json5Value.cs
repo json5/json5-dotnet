@@ -33,7 +33,29 @@ namespace Json5
             return this.ToJson5String(space, "");
         }
 
-        internal abstract string ToJson5String(string space, string indent);
+        internal abstract string ToJson5String(string space, string indent, bool useOneSpaceIndent = false);
+
+        /// <summary>
+        /// Add indent string to the start of original string, if needed
+        /// </summary>
+        /// <example>if original string is "worm" and indent is "  " then this returns "  worm"</example>
+        /// <param name="originalString">Original string</param>
+        /// <param name="indent">Indent string, can contain other chars than whitespace</param>
+        /// <param name="useOneSpaceIndent">Use one space indent, this is for case where object value starts</param>
+        /// <returns>Original or combined string</returns>
+        internal static string AddIndent(string originalString, string indent, bool useOneSpaceIndent)
+        {
+            if (useOneSpaceIndent)
+            {
+                return " " + originalString;
+            }
+            else if (string.IsNullOrEmpty(indent))
+            {
+                return originalString;
+            }
+
+            return indent + originalString;
+        }
 
         public static implicit operator Json5Value(string value)
         {
