@@ -32,7 +32,16 @@ namespace Json5
 
         public static Json5Value Parse(string text, Func<string, Json5Value, Json5Value> reviver)
         {
-            throw new NotImplementedException();
+            Json5Parser parser = new Json5Parser(new StringReader(text));
+            Json5Value value = parser.Parse();
+
+            if (reviver != null)
+            {
+                Func<Json5Container, string, Json5Value, Json5Value> finalReviver = (t, k, v) => reviver(k, v);
+                return Transform(value, finalReviver);
+            }
+
+            return value;
         }
 
         public static string Stringify(Json5Value value, Func<Json5Container, string, Json5Value, Json5Value> replacer, string space = null)
