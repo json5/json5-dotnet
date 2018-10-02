@@ -65,12 +65,17 @@ namespace Json5
             get { return Json5Type.Object; }
         }
 
-        internal override string ToJson5String(string space, string indent)
+        internal override string ToJson5String(string space, string indent, bool useOneSpaceIndent = false)
         {
+            // "If white space is used, trailing commas will be used in objects and arrays." from specification
+            bool forcedCommaAndNewLineRequired = !string.IsNullOrEmpty(space);
+
             string newLine = string.IsNullOrEmpty(space) ? "" : "\n";
 
+            string currentIndent = useOneSpaceIndent ? " " : indent;
+
             // TODO: Use string builder instead of string
-            string s = "{" + newLine;
+            string s = currentIndent + "{" + newLine;
 
             bool isFirstValue = true;
 
@@ -86,7 +91,13 @@ namespace Json5
                 }
 
                 s += indent + space + KeyToString(property.Key) + ":";
-                s += (property.Value ?? Null).ToJson5String(space, indent + space);
+
+                s += (property.Value ?? Null).ToJson5String(space, indent + space, forcedCommaAndNewLineRequired);
+            }
+
+            if (forcedCommaAndNewLineRequired)
+            {
+                s += "," + newLine;
             }
 
             s += indent + "}";

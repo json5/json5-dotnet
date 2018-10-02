@@ -23,9 +23,9 @@ namespace Json5
             get { return this.value; }
         }
 
-        internal override string ToJson5String(string space, string indent)
+        internal override string ToJson5String(string space, string indent, bool useOneSpaceIndent = false)
         {
-            return Json5.QuoteString(this.value);
+            return AddIndent(Json5.QuoteString(this.value), indent, useOneSpaceIndent);
         }
 
         public static implicit operator string(Json5String value)

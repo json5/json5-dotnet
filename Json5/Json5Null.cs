@@ -9,9 +9,9 @@ namespace Json5
             get { return Json5Type.Null; }
         }
 
-        internal override string ToJson5String(string space, string indent)
+        internal override string ToJson5String(string space, string indent, bool useOneSpaceIndent = false)
         {
-            return "null";
+            return AddIndent("null", indent, useOneSpaceIndent);
         }
     }
 }
