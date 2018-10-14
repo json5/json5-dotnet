@@ -22,7 +22,7 @@ namespace Json5.Tests.Stringifying
         [TestMethod]
         public void SingleQuotedStringPropertyNamesTest()
         {
-            var s = Json5.Stringify(new Json5Object { { "a-b", 1 } });
+            var s = Json5.Stringify(new Json5Object { { "'a-b'", 1 } });
             Assert.AreEqual("{'a-b':1}", s);
         }
 

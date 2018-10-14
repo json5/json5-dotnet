@@ -124,9 +124,39 @@ namespace Json5
             // This will not always work unless we check for Eof after the Identifier.
             // We should probably handle this another way.
             if (new Json5Lexer(key).Read().Type == Json5TokenType.Identifier)
+            {
+                if (DoesIdentifierNeedDoubleQuotes(key))
+                {
+                    return Json5.QuoteString(key);
+                }
+
                 return key;
+            }
 
             return Json5.QuoteString(key);
+        }
+
+        /// <summary>
+        /// Does the identifier need extra double quotes, Currently used to check if there would be issue with single quotes
+        /// </summary>
+        /// <param name="input">String to check</param>
+        /// <returns>True if needs; False otherwise</returns>
+        private static bool DoesIdentifierNeedDoubleQuotes(string input)
+        {
+            // If input contains single quotes that do not start and end the input, then it needs double quotes
+            if (input.Contains("'"))
+            {
+                // If it starts and ends with single quote, everything is OK
+                if (input[0] == '\'' && input[input.Length - 1] == '\'')
+                {
+                    return false;
+                }
+
+                // Otherwise it need double quotes
+                return true;
+            }
+
+            return false;
         }
     }
 }
