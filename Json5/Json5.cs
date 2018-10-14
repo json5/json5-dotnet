@@ -125,19 +125,30 @@ namespace Json5
             return transformer(holder, key, value);
         }
 
+        internal static readonly char doubleQuote = '"';
+        internal static readonly char singleQuote = '\'';
+
         internal static string QuoteString(string s)
         {
             int doubleQuotes = 0;
             int singleQuotes = 0;
             foreach (char c in s)
             {
-                if (c == '"')
+                if (c == doubleQuote)
                     doubleQuotes++;
-                else if (c == '\'')
+                else if (c == singleQuote)
                     singleQuotes++;
             }
 
-            char quote = doubleQuotes >= singleQuotes ? '\'' : '"';
+            char quote = doubleQuotes >= singleQuotes ? singleQuote : doubleQuote;
+
+            // Hack that handles single quoted strings (e.g. 'a-b') by removing the single quotes from start and end
+            if (s != null && s.Length > 1 && s[0] == singleQuote && s[s.Length - 1] == singleQuote)
+            {
+                quote = singleQuote;
+                s = s.Substring(1, s.Length - 2); 
+            }
+
             return quote + EscapeString(s, quote) + quote;
         }
 
