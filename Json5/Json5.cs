@@ -157,14 +157,21 @@ namespace Json5
 
             switch (c)
             {
+                case '\0': return "\\0";
                 case '\b': return "\\b";
                 case '\t': return "\\t";
                 case '\n': return "\\n";
                 case '\f': return "\\f";
                 case '\r': return "\\r";
+                case '\v': return "\\v";
                 case '\\': return "\\\\";
                 case '\u2028': return "\\u2028";
                 case '\u2029': return "\\u2029";
+            }
+
+            if (c < ' ')
+            {
+                return "\\x" + ((int)c).ToString("x2");
             }
 
             switch (char.GetUnicodeCategory(c))
@@ -176,11 +183,7 @@ namespace Json5
                 case UnicodeCategory.OtherNotAssigned:
                     return "\\u" + ((int)c).ToString("x4");
             }
-
-            // // Node does this.
-            //if(c <= 31)
-            //  return "\\u" + ((int)c).ToString("x4");
-
+            
             return c.ToString();
         }
     }
