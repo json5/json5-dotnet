@@ -3,6 +3,7 @@ using System.Collections.Generic;
 namespace Json5
 {
     using Parsing;
+    using System.Text.RegularExpressions;
 
     public class Json5Object : Json5Container, IEnumerable<KeyValuePair<string, Json5Value>>
     {
@@ -105,25 +106,18 @@ namespace Json5
             return s;
         }
 
+        // https://www.ecma-international.org/ecma-262/5.1/
+        // Match IdentifierName (except escapes)
+        private static Regex identifierNameRegex = new Regex(@"
+            ^
+                [\$_\p{L}\p{Nl}]
+                [\$_\p{L}\p{Nl}\p{Mn}\p{Mc}\p{Nd}\p{Pc}\u200c\u200d]*
+            $
+        ", RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+
         private string KeyToString(string key)
         {
-            if (key.Length == 0)
-                return "''";
-
-
-            // TODO: Create a Utility class for interally used methods.
-
-            //if(char.IsLetter(key[0]) || char.GetUnicodeCategory(key[0]) == System.Globalization.UnicodeCategory.LetterNumber)
-            //{
-            //  for(int i = 1; i < key.Length; i++)
-            //  {
-
-            //  }
-            //}
-
-            // This will not always work unless we check for Eof after the Identifier.
-            // We should probably handle this another way.
-            if (new Json5Lexer(key).Read().Type == Json5TokenType.Identifier)
+            if (identifierNameRegex.IsMatch(key))
                 return key;
 
             return Json5.QuoteString(key);
